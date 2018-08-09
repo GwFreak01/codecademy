@@ -66,17 +66,52 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
     }
 
     let numberOfBombsPlaced = 0;
-    while (numberOfBombsPlaced <= numberOfBombs) {
+    while (numberOfBombsPlaced < numberOfBombs) {
         // Potential to overwrite already existing bombs
         let randomRowIndex = Math.floor(Math.random() * Math.floor(numberOfRows));
         let randomColumnIndex = Math.floor(Math.random() * Math.floor(numberOfColumns));
         // console.log('BombRow: %s \n BombColumn: %s', randomRowIndex, randomColumnIndex);
-        board[randomRowIndex][randomColumnIndex] = 'B';
-        numberOfBombsPlaced++;
+        if (board[randomRowIndex][randomColumnIndex] !== 'B') {
+            board[randomRowIndex][randomColumnIndex] = 'B';
+            numberOfBombsPlaced++;
+        }
+
     }
     // console.log(board);
 
     return board;
+};
+
+const getNumberOfNeighboringBombs = (bombBoard, rowIndex, columnIndex) => {
+    const neighborOffsets = [
+        [-1, -1],
+        [-1, 0],
+        [-1, 1],
+        [0, -1],
+        [0, 1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
+    ];
+
+    const numberfRows = bombBoard.length;
+    const numberfColumns = bombBoard[0].length;
+    let numberOfBombs = 0;
+
+    neighborOffsets.forEach((offset) => {
+        const neighborRowIndex = rowIndex + offset[0];
+        const neighborColumnIndex = columnIndex + offset[1];
+
+        if (neighborRowIndex >= 0 && neighborRowIndex < numberfRows &&
+            neighborColumnIndex >= 0 && neighborColumnIndex < numberfColumns) {
+            if (bombBoard[neighborRowIndex][neighborColumnIndex] === 'B') {
+                numberOfBombs++;
+            }
+        }
+    });
+    return numberOfBombs;
+
+
 };
 // generateBombBoard(2, 3, 3);
 

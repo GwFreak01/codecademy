@@ -113,6 +113,19 @@ const getNumberOfNeighboringBombs = (bombBoard, rowIndex, columnIndex) => {
 
 
 };
+
+const flipTile = (playerBoard, bombBoard, rowIndex, columnIndex) => {
+    if (playerBoard[rowIndex][columnIndex] !== ' ') {
+        console.log('This tile has already been flipped!');
+        return;
+    }
+    else if (bombBoard[rowIndex][columnIndex] === 'B') {
+
+    }
+    else {
+        playerBoard[rowIndex][columnIndex] = getNumberOfNeighboringBombs(bombBoard, rowIndex, columnIndex);
+    }
+};
 // generateBombBoard(2, 3, 3);
 
 // console.log(generatePlayerBoard);
@@ -139,4 +152,7 @@ printBoard(playerBoard);
 console.log('Bomb Board: ');
 printBoard(bombBoard);
 
+flipTile(playerBoard, bombBoard, 0, 0);
 
+console.log('Updated Player Board: ');
+printBoard(playerBoard);

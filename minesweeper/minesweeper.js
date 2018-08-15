@@ -156,3 +156,4 @@ flipTile(playerBoard, bombBoard, 0, 0);
 
 console.log('Updated Player Board: ');
 printBoard(playerBoard);
+//test test

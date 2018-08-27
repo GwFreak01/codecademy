@@ -38,6 +38,10 @@
 
 // let generatePlayerBoard =[];
 
+class Board {
+
+}
+
 const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
     let board = [];
     for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {

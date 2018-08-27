@@ -38,28 +38,47 @@
 
 // let generatePlayerBoard =[];
 
+class Game {
+    constructor(numberOfRows, numberOfColumns, numberOfBombs) {
+        this._board = new Board(numberOfRows, numberOfColumns, numberOfBombs);
+    }
+
+    playMove(rowIndex, columnIndex) {
+        this._board.flipTile(rowIndex, columnIndex);
+        if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
+            console.log('Game Over!');
+            this._board.print();
+        } else if (!this._board.hasSafeTiles()) {
+            console.log('You won!');
+        } else {
+            console.log('Current Board: ');
+            this._board.print();
+        }
+    }
+}
+
 class Board {
     constructor(numberOfRows, numberOfColumns, numberOfBombs) {
         this._numberOfBombs = numberOfBombs;
         this._numberOfTiles = numberOfRows * numberOfColumns;
-        this._playerBoard = generatePlayerBoard(numberOfRows, numberOfColumns);
-        this._bombBoard = generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs);
+        this._playerBoard = Board.generatePlayerBoard(numberOfRows, numberOfColumns);
+        this._bombBoard = Board.generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs);
     }
 
     get playerBoard() {
         return this._playerBoard;
     }
 
-    flipTile(_playerBoard, _bombBoard, rowIndex, columnIndex) {
+    flipTile(rowIndex, columnIndex) {
         if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
             console.log('This tile has already been flipped!');
             return;
         }
         else if (this._bombBoard[rowIndex][columnIndex] === 'B') {
-
+            this._playerBoard[rowIndex][columnIndex] = 'B';
         }
         else {
-            this._playerBoard[rowIndex][columnIndex] = getNumberOfNeighboringBombs(rowIndex, columnIndex);
+            this._playerBoard[rowIndex][columnIndex] = this.getNumberOfNeighboringBombs(rowIndex, columnIndex);
         }
         this._numberOfTiles--;
     }
@@ -100,7 +119,7 @@ class Board {
 
     print() {
         // console.log('CurrentBoard: ');
-        console.log(this._board.map((row) => row.join(' | ')).join('\n'));
+        console.log(this._playerBoard.map((row) => row.join(' | ')).join('\n'));
     };
 
     static generatePlayerBoard(numberOfRows, numberOfColumns) {
@@ -164,17 +183,20 @@ class Board {
 
 // console.log(printBoard(generatePlayerBoard(2,3)));
 
-let playerBoard = generatePlayerBoard(3, 4);
-
-let bombBoard = generateBombBoard(3, 4, 5);
-
-console.log('Player Board: ');
-printBoard(playerBoard);
-console.log('Bomb Board: ');
-printBoard(bombBoard);
-
-flipTile(playerBoard, bombBoard, 0, 0);
-
-console.log('Updated Player Board: ');
-printBoard(playerBoard);
+// let playerBoard = generatePlayerBoard(3, 4);
+//
+// let bombBoard = generateBombBoard(3, 4, 5);
+//
+// console.log('Player Board: ');
+// printBoard(playerBoard);
+// console.log('Bomb Board: ');
+// printBoard(bombBoard);
+//
+// flipTile(playerBoard, bombBoard, 0, 0);
+//
+// console.log('Updated Player Board: ');
+// printBoard(playerBoard);
 //test test
+
+const g = new Game(3, 3, 3);
+g.playMove(0, 0);

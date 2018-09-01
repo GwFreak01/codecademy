@@ -7,3 +7,6 @@ let sortByOptions = {
     'Most Reviewed': 'review_count'
 };
 
+class SearchBar extends React.Component {
+
+}

@@ -13,6 +13,7 @@ const business = {
     reviewCount: 90
 };
 
+// Creates Business Component
 class Business extends React.Component {
     render() {
         return (

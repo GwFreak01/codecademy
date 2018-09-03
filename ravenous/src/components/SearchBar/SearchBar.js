@@ -8,6 +8,15 @@ let sortByOptions = {
 };
 
 class SearchBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            term: '',
+            location: '',
+            sortBy: 'best_match'
+        };
+    }
+
     getSortByClass(sortByOptions) {
         if (this.state.sortBy === sortByOptions) {
             return 'active';
@@ -16,15 +25,13 @@ class SearchBar extends React.Component {
             return '';
         }
     }
-    constructor(props) {
-        super(props);
-        this.state = {
-            term: '',
-            location: '',
-            sortBy: 'best_match'
-        };
 
+    handleSortByChange(sortByOption) {
+        this.setState({
+            sortBy: sortByOption
+        })
     }
+
     // Dynamically creates list items to display the sort options.
     // Future-proofs against potential changes to Yelp API
     // Method iterates through keys and values of sortByOptions object and returns a list item.

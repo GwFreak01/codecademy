@@ -29,7 +29,7 @@ class SearchBar extends React.Component {
     handleSortByChange(sortByOption) {
         this.setState({
             sortBy: sortByOption
-        })
+        });
     }
 
     // Dynamically creates list items to display the sort options.
@@ -42,7 +42,7 @@ class SearchBar extends React.Component {
         // Returns list item element with key attribute equal to sortByOptionValue and content as sortByOption.
         return Object.keys(sortByOptions).map(sortByOption => {
             const sortByOptionValue = sortByOptions[sortByOption];
-            return <li key={sortByOptionValue}>{sortByOption}</li>
+            return <li className={this.getSortByClass(sortByOptionValue)} key={sortByOptionValue}>{sortByOption}</li>
         });
     }
 

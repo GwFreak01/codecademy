@@ -26,15 +26,19 @@ const businesses = [
 ];
 
 class App extends Component {
-  render() {
-    return (
-        <div className="App">
-            <h1>ravenous</h1>
-          <SearchBar/>
-          <BusinessList businesses={businesses}/>
-        </div>
-    );
-  }
+    searchYelp(term, location, sortBy) {
+        console.log('Searching Yelp with Pizza, Brooklyn, best_match');
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <h1>ravenous</h1>
+                <SearchBar/>
+                <BusinessList businesses={businesses}/>
+            </div>
+        );
+    }
 }
 
 export default App;

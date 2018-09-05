@@ -47,6 +47,11 @@ class SearchBar extends React.Component {
         });
     }
 
+    handleSearch(event) {
+        this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
+        event.preventDefault();
+    }
+
     // Dynamically creates list items to display the sort options.
     // Future-proofs against potential changes to Yelp API
     // Method iterates through keys and values of sortByOptions object and returns a list item.

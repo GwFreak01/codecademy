@@ -8,7 +8,7 @@ export const Yelp = {
         const endpoint = bypassCORSRestriction + url + queryParams;
         return fetch(endpoint, {
             headers: {
-                Authorization: `Bearer${apiKey}`
+                Authorization: `Bearer ${apiKey}`
             }
         }).then((response) => {
             if (response.ok) {
@@ -18,11 +18,18 @@ export const Yelp = {
         }).then((jsonResponse) => {
             if (jsonResponse.businesses) {
                 return jsonResponse.businesses.map((business) => {
+                    let fullAddress =`${business.location.address1}`;
+                    if (business.location.address2) {
+                        fullAddress += `, ${business.location.address2}`;
+                    }
+                    if (business.location.address3) {
+                        fullAddress += `, ${business.location.address3}`;
+                    }
                     return {
                         id: business.id,
                         imageSrc: business.image_url,
                         name: business.name,
-                        address: `${business.location.address1},${business.location.address2},${business.location.address3}`,
+                        address: fullAddress,
                         city: business.location.city,
                         state: business.location.state,
                         zipCode: business.location.zip_code,

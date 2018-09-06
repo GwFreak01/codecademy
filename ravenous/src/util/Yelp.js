@@ -18,9 +18,9 @@ export const Yelp = {
         }).then((jsonResponse) => {
             if (jsonResponse.businesses) {
                 return jsonResponse.businesses.map((business) => {
-                    const businessInfo = {
+                    return {
                         id: business.id,
-                        imagSrc: business.image_url,
+                        imageSrc: business.image_url,
                         name: business.name,
                         address: `${business.location.address1},${business.location.address2},${business.location.address3}`,
                         city: business.location.city,
@@ -30,7 +30,6 @@ export const Yelp = {
                         rating: business.rating,
                         reviewCount: business.review_count
                     };
-                    return businessInfo;
                 });
             }
         });

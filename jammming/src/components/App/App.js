@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
+import logo from '../../../public/jammming_favicon.ico';
 import './App.css';
 
 import SearchBar from '../SearchBar/SearchBar';

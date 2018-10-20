@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
-import logo from '../../../public/jammming_favicon.ico';
 import './App.css';
 
 import SearchBar from '../SearchBar/SearchBar';
@@ -26,6 +24,22 @@ class App extends Component {
                     album: "Scorpion",
                     id: "1"
                 }
+            ],
+            playListName: "Lit Time",
+            playlistTracks: [
+                {
+                    name: "Jesus",
+                    artist: "Cow",
+                    album: "Greener",
+                    id: "0"
+
+                },
+                {
+                    name: "God's Plan",
+                    artist: "Christ",
+                    album: "Scorpion",
+                    id: "1"
+                }
             ]
         };
     }
@@ -36,8 +50,13 @@ class App extends Component {
                 <div className="App">
                     <SearchBar/>
                     <div className="App-playlist">
-                        <SearchResults searchResults={this.state.searchResults}/>
-                        <Playlist/>
+                        <SearchResults
+                            searchResults={this.state.searchResults}
+                        />
+                        <Playlist
+                            playListName={this.state.playListName}
+                            playlistTracks={this.state.playlistTracks}
+                        />
                     </div>
                 </div>
             </div>

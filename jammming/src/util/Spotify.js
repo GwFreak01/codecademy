@@ -7,7 +7,7 @@ const Spotify = {
     getAccessToken() {
         const regExAccessToken = window.location.href.match(/access_token=([^&]*)/);
         const regExExpiration = window.location.href.match(/expires_in=([^&]*)/);
-
+        console.log('regExAccessToken: ', regExAccessToken);
         if (accessToken) {
             return accessToken;
         }
@@ -27,6 +27,8 @@ const Spotify = {
     },
 
     search(searchTerm) {
+        const accessToken = Spotify.getAccessToken();
+        console.log('accessToken: ', accessToken);
         const queryParams = `?searchtype=track&q=${searchTerm}`;
         const endpoint = apiURL + queryParams;
         return fetch(endpoint, {

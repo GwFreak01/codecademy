@@ -1,6 +1,7 @@
 let accessToken;
 const client_id = "ea7dd38635ec4aadae73b4e2fd2ffc49";
 const redirect_uri = "http://localhost:3000/";
+const apiURL = "https://api.spotify.com/v1/";
 
 const Spotify = {
     getAccessToken() {
@@ -23,6 +24,38 @@ const Spotify = {
             const endpoint = url + queryParams;
             window.location = endpoint;
         }
+    },
+
+    search(searchTerm) {
+        const queryParams = `?searchtype=track&q=${searchTerm}`;
+        const endpoint = apiURL + queryParams;
+        return fetch(endpoint, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error("Request failed!");
+        }).then((jsonResponse) => {
+            if (jsonResponse.tracks) {
+                return jsonResponse.tracks.map((track) => {
+                    return {
+                        id: track.id,
+                        name: track.name,
+                        artist: track.artists[0].name,
+                        album: track.album.name,
+                        uri: track.uri
+                    };
+                });
+            }
+            else {
+                return [];
+            }
+        })
+
     }
 };
 

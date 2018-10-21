@@ -7,13 +7,12 @@ const Spotify = {
     getAccessToken() {
         const regExAccessToken = window.location.href.match(/access_token=([^&]*)/);
         const regExExpiration = window.location.href.match(/expires_in=([^&]*)/);
-        console.log('regExAccessToken: ', regExAccessToken);
         if (accessToken) {
             return accessToken;
         }
-        else if (!accessToken && regExAccessToken && regExExpiration) {
-            accessToken = regExAccessToken;
-            let expiresIn = regExExpiration;
+        else if (!accessToken && regExAccessToken) {
+            accessToken = regExAccessToken[1];
+            let expiresIn = regExExpiration[1];
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/');
             return accessToken;
@@ -28,8 +27,7 @@ const Spotify = {
 
     search(searchTerm) {
         const accessToken = Spotify.getAccessToken();
-        console.log('accessToken: ', accessToken);
-        const queryParams = `?searchtype=track&q=${searchTerm}`;
+        const queryParams = `search?type=track&q=${searchTerm}`;
         const endpoint = apiURL + queryParams;
         return fetch(endpoint, {
             method: "GET",
@@ -37,13 +35,11 @@ const Spotify = {
                 Authorization: `Bearer ${accessToken}`
             }
         }).then((response) => {
-            if (response.ok) {
                 return response.json();
-            }
-            throw new Error("Request failed!");
         }).then((jsonResponse) => {
+            console.log(jsonResponse);
             if (jsonResponse.tracks) {
-                return jsonResponse.tracks.map((track) => {
+                return jsonResponse.tracks.items.map((track) => {
                     return {
                         id: track.id,
                         name: track.name,

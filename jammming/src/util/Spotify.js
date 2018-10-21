@@ -1,6 +1,7 @@
 let accessToken;
 const client_id = "ea7dd38635ec4aadae73b4e2fd2ffc49";
-const redirect_uri = "http://localhost:3000/";
+const redirect_uri = "https://hirebinpham.surge.sh";
+// const redirect_uri = "http://localhost:3000/";
 const apiURL = "https://api.spotify.com/v1/";
 
 const Spotify = {

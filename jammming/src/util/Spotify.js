@@ -19,16 +19,17 @@ const Spotify = {
         }
         else {
             const url = "https://accounts.spotify.com/authorize?";
-            const queryParams = `client_id=${client_id}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirect_uri}`;
-            const endpoint = url + queryParams;
+            const scope = "playlist-modify-public playlist-modify-private";
+            const queryUrl = `client_id=${client_id}&response_type=token&scope=${scope}&redirect_uri=${redirect_uri}`;
+            const endpoint = url + queryUrl;
             window.location = endpoint;
         }
     },
 
     search(searchTerm) {
         const accessToken = Spotify.getAccessToken();
-        const queryParams = `search?type=track&q=${searchTerm}`;
-        const endpoint = apiURL + queryParams;
+        const queryUrl = `search?type=track&q=${searchTerm}`;
+        const endpoint = apiURL + queryUrl;
         return fetch(endpoint, {
             method: "GET",
             headers: {
@@ -37,7 +38,6 @@ const Spotify = {
         }).then((response) => {
                 return response.json();
         }).then((jsonResponse) => {
-            console.log(jsonResponse);
             if (jsonResponse.tracks) {
                 return jsonResponse.tracks.items.map((track) => {
                     return {
@@ -53,7 +53,77 @@ const Spotify = {
                 return [];
             }
         })
+    },
 
+    savePlaylist(playlistName, trackURIs) {
+        const accessToken = Spotify.getAccessToken();
+        let userId;
+        let playlistId;
+        if (!playlistName && !trackURIs) {
+            return;
+        }
+        else {
+            let queryUrl = "me";
+            let endpoint = apiURL + queryUrl;
+            return fetch(endpoint, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }).then((response) => {
+                return response.json();
+            }).then((jsonResponse) => {
+                userId = jsonResponse.id;
+
+                queryUrl = `users/${userId}/playlists`;
+                endpoint = apiURL + queryUrl;
+                return fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify(
+                        {
+                            name: playlistName
+                        }
+                    )
+                }).then((response) => {
+                    return response.json();
+                }).then((jsonResponse) => {
+                    if (jsonResponse.id) {
+                        playlistId = jsonResponse.id;
+                        queryUrl = `users/${userId}/playlists/${playlistId}/tracks`;
+                        endpoint = apiURL + queryUrl;
+                        return fetch(endpoint, {
+                            method: "POST",
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`
+                            },
+                            body: JSON.stringify(
+                                {
+                                    uris: trackURIs
+                                }
+                            )
+                        }).then((response) => {
+                            if (response.status === 201) {
+                                window.alert("Your playlist has been successfully created!");
+                            }
+                            else if (response.status === 202) {
+                                window.alert("Your playlist has been accepted for processing!");
+                            }
+                            else {
+                                window.alert("Your playlist was not saved!");
+                            }
+                            return response.json();
+                        }).then((jsonResponse) => {
+                            if (jsonResponse.snapshot_id) {
+                                playlistId = jsonResponse.snapshot_id;
+                            }
+                        });
+                    }
+                });
+            });
+        }
     }
 };
 

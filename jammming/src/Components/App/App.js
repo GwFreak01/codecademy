@@ -47,6 +47,7 @@ class App extends Component {
         this.removeTrack = this.removeTrack.bind(this);
         this.updatePlaylistName = this.updatePlaylistName.bind(this);
         this.savePlaylist = this.savePlaylist.bind(this);
+        this.search = this.search.bind(this);
     }
 
     addTrack(track) {
@@ -79,6 +80,10 @@ class App extends Component {
         });
     }
 
+    search(searchTerm) {
+        console.log('searchTerm: ', searchTerm);
+    }
+
     render() {
         return (
             <div>
@@ -89,6 +94,7 @@ class App extends Component {
                         <SearchResults
                             searchResults={this.state.searchResults}
                             onAdd={this.addTrack}
+                            onSearch={this.search}
                         />
                         <Playlist
                             playListName={this.state.playListName}

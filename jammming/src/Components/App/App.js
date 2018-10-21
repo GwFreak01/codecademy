@@ -12,7 +12,7 @@ class App extends Component {
 
         this.state = {
             searchResults: [],
-            playListName: "Lit Time",
+            playListName: "New Playlist",
             playlistTracks: []
         };
 

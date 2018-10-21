@@ -31,14 +31,14 @@ class App extends Component {
                     name: "Jesus",
                     artist: "Cow",
                     album: "Greener",
-                    id: "0"
+                    id: "2"
 
                 },
                 {
                     name: "Christ",
                     artist: "Drake",
                     album: "Scorpion",
-                    id: "1"
+                    id: "3"
                 }
             ]
         };
@@ -51,8 +51,17 @@ class App extends Component {
             return;
         }
         else {
-            this.state.playlistTracks.push(track);
+            this.setState({
+                playlistTracks: [...this.state.playlistTracks, track]
+            });
         }
+    }
+
+    removeTrack(id) {
+        let updatedPlaylistTracks = this.state.playlistTracks.filter((playlistTrack) => playlistTrack.id !== id);
+        this.setState({
+            playlistTracks: updatedPlaylistTracks
+        });
     }
 
     render() {
